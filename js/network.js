@@ -93,12 +93,19 @@ function drawNetwork() {
       ctx.stroke();
     }
 
-    // Node labels
+   // Node labels (crisper, larger, with dark backdrop shadow for readability)
     ctx.shadowBlur = 0;
-    ctx.font = '10px "Share Tech Mono", monospace';
-    ctx.fillStyle = node.state === 'locked' ? 'rgba(34, 242, 89, 0.5)' : '#fff';
+    ctx.font = 'bold 13px "Share Tech Mono", monospace';
     ctx.textAlign = 'center';
-    ctx.fillText(node.label, node.x, node.y + 20);
+
+    // Dark stroke/shadow behind text so it never blends into grid or sweep beam
+    ctx.strokeStyle = '#020503';
+    ctx.lineWidth = 3;
+    ctx.strokeText(node.label, node.x, node.y + 24);
+
+    // Foreground text fill
+    ctx.fillStyle = node.state === 'locked' ? 'rgba(34, 242, 89, 0.65)' : '#ffffff';
+    ctx.fillText(node.label, node.x, node.y + 24);
   });
 
  // 4. Radar sweep beam & trailing phosphor shadow
