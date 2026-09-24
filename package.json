@@ -1,0 +1,25 @@
+{
+  "name": "cyber-breach-os",
+  "version": "1.0.0",
+  "description": "> A retro cyberpunk terminal intrusion simulator and puzzle game built with vanilla web technologies.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clang2619/cyber-breach-os.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clang2619/cyber-breach-os/issues"
+  },
+  "homepage": "https://github.com/clang2619/cyber-breach-os#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2"
+  }
+}
