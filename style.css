@@ -1,0 +1,231 @@
+:root {
+  --bg-color: #070b08;
+  --panel-bg: rgba(10, 20, 12, 0.75);
+  --term-green: #22f259;
+  --term-green-dim: #138833;
+  --term-green-glow: rgba(34, 242, 89, 0.25);
+  --alert-red: #ff3344;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-display: 'VT323', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--term-green);
+  font-family: var(--font-mono);
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* --- CRT Scanlines & Vignette --- */
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  /* Lightened line opacity from 0.35 down to 0.12, expanded pitch to 6px */
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.12) 50%),
+    radial-gradient(circle at center, transparent 75%, rgba(0, 0, 0, 0.6) 100%);
+  background-size: 100% 6px, 100% 100%;
+  transition: opacity 0.2s ease;
+}
+
+/* Allow scanlines to be toggled off cleanly */
+body.no-scanlines .crt-overlay {
+  opacity: 0;
+}
+
+/* --- Main Layout Frame --- */
+.screen-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 16px;
+  gap: 12px;
+}
+
+/* --- Header & Trace Meter --- */
+.system-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--term-green-dim);
+  padding-bottom: 8px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+}
+
+.header-left, .header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background-color: var(--term-green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--term-green);
+  animation: pulse 1.8s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.trace-bar-container {
+  width: 160px;
+  height: 12px;
+  border: 1px solid var(--term-green);
+  background: #000;
+  padding: 1px;
+}
+
+.trace-bar {
+  height: 100%;
+  background: var(--term-green);
+  box-shadow: 0 0 6px var(--term-green);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-retro {
+  background: transparent;
+  border: 1px solid var(--term-green);
+  color: var(--term-green);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
+.btn-retro:hover {
+  background: var(--term-green);
+  color: #000;
+}
+
+/* --- Workspace Split --- */
+.workspace {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 16px;
+  flex: 1;
+  min-height: 0; /* allows children to scroll properly */
+}
+
+/* --- Left Pane: Terminal --- */
+.terminal-pane {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  border: 1px solid var(--term-green-dim);
+  box-shadow: 0 0 15px var(--term-green-glow);
+  padding: 12px;
+  min-height: 0;
+}
+
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--term-green-dim);
+  padding-bottom: 6px;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+.terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  text-shadow: 0 0 4px var(--term-green-glow);
+}
+
+.log-entry.system-msg {
+  opacity: 0.85;
+}
+
+.highlight {
+  color: #fff;
+  text-shadow: 0 0 6px #fff;
+}
+
+/* Terminal Input Line */
+.terminal-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  border-top: 1px solid var(--term-green-dim);
+  padding-top: 8px;
+}
+
+.prompt-symbol {
+  font-weight: bold;
+  user-select: none;
+}
+
+#terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--term-green);
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  caret-color: var(--term-green);
+  text-shadow: 0 0 4px var(--term-green-glow);
+}
+
+/* --- Right Pane: Telemetry --- */
+.telemetry-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.telemetry-box {
+  background: var(--panel-bg);
+  border: 1px solid var(--term-green-dim);
+  box-shadow: 0 0 10px var(--term-green-glow);
+  padding: 12px;
+}
+
+.telemetry-box h3 {
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border-bottom: 1px dashed var(--term-green-dim);
+  padding-bottom: 4px;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+#network-canvas {
+  width: 100%;
+  background: #020503;
+  border: 1px solid rgba(34, 242, 89, 0.2);
+  display: block;
+}
+
+.mission-text {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  opacity: 0.85;
+}
