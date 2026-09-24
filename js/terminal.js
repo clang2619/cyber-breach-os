@@ -80,9 +80,12 @@ function executeCommand(rawInput) {
   const args = parts.slice(1);
 
   // 4. Dispatch
+ // 4. Dispatch
   if (commands[cmd]) {
+    sfx.playSuccess(); // <--- Plays chime on valid command
     commands[cmd](args);
   } else {
+    sfx.playError();   // <--- Plays low buzz on unknown command
     printLine(`zsh: command not found: <span class="highlight">${cmd}</span>. Type <span class="highlight">help</span> for directives.`, 'alert-msg');
   }
 }
@@ -94,6 +97,11 @@ terminalForm.addEventListener('submit', (e) => {
   const input = terminalInput.value;
   terminalInput.value = '';
   executeCommand(input);
+});
+
+// Play mechanical keystroke click on every typed character
+terminalInput.addEventListener('input', () => {
+  sfx.playKeypress();
 });
 
 // ArrowUp and ArrowDown for Command History
