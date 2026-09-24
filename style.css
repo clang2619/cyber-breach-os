@@ -229,3 +229,13 @@ body.no-scanlines .crt-overlay {
   line-height: 1.4;
   opacity: 0.85;
 }
+
+.user-command {
+  color: #a8ffb2;
+  font-weight: bold;
+}
+
+.alert-msg {
+  color: var(--alert-red);
+  text-shadow: 0 0 6px rgba(255, 51, 68, 0.4);
+}
